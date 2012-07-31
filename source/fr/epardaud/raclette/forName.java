@@ -10,6 +10,7 @@ public class forName {
 	public static <T> Class<T> forName(String name){
 		try {
 			// FIXME: classloader
+			// FIXME: map Ceylon class names to Java class names
 			return Class.<T>instance((java.lang.Class<T>)java.lang.Class.forName(name));
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Class not found: "+name);
