@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
 import ceylon.collection.MutableMap;
+import ceylon.language.List;
 import ceylon.language.Map;
 import ceylon.language.Set;
 
@@ -38,6 +39,7 @@ public class Class<T> {
 	private MutableMap<ceylon.language.String, Method<T, java.lang.Object>> methods;
 	private MutableMap<ceylon.language.String, Attribute<T, java.lang.Object>> attributes;
 	private Set<Annotation> annotations;
+	private List<Parameter> parameters;
 
 	private Class(java.lang.Class<T> javaClass) {
 		this.javaClass = javaClass;
@@ -46,6 +48,14 @@ public class Class<T> {
 	public boolean isShared(){
 		// FIXME: Ceylon interfaces and member classes have different rules
 		return Modifier.isPublic(javaClass.getModifiers());
+	}
+
+	public List<Parameter> getParameters(){
+		if(parameters == null){
+			Constructor<T> mainConstructor = getMainConstructor();
+			parameters = Util.initParameters(mainConstructor.getParameterTypes(), mainConstructor.getParameterAnnotations());
+		}
+		return parameters;
 	}
 
 	public Set<Annotation> getAnnotations(){

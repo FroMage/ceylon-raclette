@@ -45,19 +45,10 @@ public class Method<Instance,Return> {
 	
 	public List<Parameter> getParameters(){
 		if(parameters == null)
-			initParameters();
+			parameters = Util.initParameters(javaMethod.getParameterTypes(), javaMethod.getParameterAnnotations());
 		return parameters;
 	}
 	
-	private void initParameters() {
-		parameters = new ceylon.collection.LinkedList<Parameter>();
-		java.lang.Class<?>[] parameterTypes = javaMethod.getParameterTypes();
-		java.lang.annotation.Annotation[][] parameterAnnotations = javaMethod.getParameterAnnotations();
-		for(int i=0;i<parameterTypes.length;i++){
-			parameters.add(new Parameter(parameterTypes[i], parameterAnnotations[i]));
-		}
-	}
-
 	public Set<Annotation> getAnnotations(){
 		if(annotations == null)
 			annotations = Util.initAnnotations(javaMethod);

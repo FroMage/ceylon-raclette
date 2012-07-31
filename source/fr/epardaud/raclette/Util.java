@@ -3,6 +3,8 @@ package fr.epardaud.raclette;
 import java.util.Locale;
 
 import ceylon.collection.HashSet;
+import ceylon.collection.LinkedList;
+import ceylon.collection.MutableList;
 import ceylon.collection.MutableSet;
 import ceylon.language.Iterable;
 
@@ -139,5 +141,15 @@ public class Util {
 		}
 		// FIXME: handle void methods
 		return value;
+	}
+
+	public static MutableList<Parameter> initParameters(
+			java.lang.Class<?>[] parameterTypes,
+			java.lang.annotation.Annotation[][] parameterAnnotations) {
+		LinkedList<Parameter> parameters = new ceylon.collection.LinkedList<Parameter>();
+		for(int i=0;i<parameterTypes.length;i++){
+			parameters.add(new Parameter(parameterTypes[i], parameterAnnotations[i]));
+		}
+		return parameters;
 	}
 }
