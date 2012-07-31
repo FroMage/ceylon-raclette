@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import ceylon.collection.MutableMap;
 import ceylon.language.Map;
+import ceylon.language.Set;
 
 import com.redhat.ceylon.compiler.java.metadata.Ceylon;
 import com.redhat.ceylon.compiler.java.metadata.Ignore;
@@ -35,11 +36,18 @@ public class Class<T> {
 	private Constructor<T> mainConstructor;
 	private MutableMap<ceylon.language.String, Method<T, java.lang.Object>> methods;
 	private MutableMap<ceylon.language.String, Attribute<T, java.lang.Object>> attributes;
+	private Set<Annotation> annotations;
 
 	private Class(java.lang.Class<T> javaClass) {
 		this.javaClass = javaClass;
 	}
 	
+	public Set<Annotation> getAnnotations(){
+		if(annotations == null)
+			annotations = Util.initAnnotations(javaClass);
+		return annotations;
+	}
+
 	@SuppressWarnings("unchecked")
 	private Constructor<T> getMainConstructor(){
 		if(mainConstructor == null){

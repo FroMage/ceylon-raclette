@@ -59,6 +59,10 @@ void printAttribute<T>(Attribute<T, Void> attribute) {
 void test(){
     Class<TestType> c = forName<TestType>("fr.epardaud.raclette.test.TestType");
     TestType t = c.newInstance();
+    for(ann in c.annotations){
+        process.write(ann.string);
+        process.write(" ");
+    }
     print(c.qualifiedName);
     for(method in c.methods.values.sorted((Method<TestType,Void> x , Method<TestType,Void> y) x.name <=> y.name)){
         printMethod(method);
