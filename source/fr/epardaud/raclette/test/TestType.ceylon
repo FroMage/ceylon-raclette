@@ -1,4 +1,4 @@
-shared class TestType() {
+shared class TestType(String param) {
     shared String as = "foo";
     String nonSharedAttribute = "bar";
     shared variable String vs := "foo";

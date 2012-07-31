@@ -16,17 +16,10 @@ void assertEquals(Void expected, Void val){
     }
 }
 
-void printMethod<T>(Method<T, Void> method) {
-    for(ann in method.annotations){
-        process.write(ann.string);
-        process.write(" ");
-    }
-    process.write(method.type.string);
-    process.write(" ");
-    process.write(method.name);
+void printParameters(List<Parameter> parameters) {
     process.write("(");
     variable Boolean once := true;
-    for(param in method.parameters){
+    for(param in parameters){
         if(once){
             once := false;
         }else{
@@ -42,7 +35,19 @@ void printMethod<T>(Method<T, Void> method) {
             process.write(" = ?");
         }
     }
-    process.write(")\n");
+    process.write(")");
+}
+
+void printMethod<T>(Method<T, Void> method) {
+    for(ann in method.annotations){
+        process.write(ann.string);
+        process.write(" ");
+    }
+    process.write(method.type.string);
+    process.write(" ");
+    process.write(method.name);
+    printParameters(method.parameters);
+    process.write("\n");
 }
 
 void printAttribute<T>(Attribute<T, Void> attribute) {
@@ -56,14 +61,20 @@ void printAttribute<T>(Attribute<T, Void> attribute) {
     process.write("\n");
 }
 
-void test(){
-    Class<TestType> c = forName<TestType>("fr.epardaud.raclette.test.TestType");
-    TestType t = c.newInstance();
+void printType<T>(Class<T> c) {
     for(ann in c.annotations){
         process.write(ann.string);
         process.write(" ");
     }
-    print(c.qualifiedName);
+    process.write(c.qualifiedName);
+    printParameters(c.parameters);
+    process.write("\n");
+}
+
+void test(){
+    Class<TestType> c = forName<TestType>("fr.epardaud.raclette.test.TestType");
+    TestType t = c.newInstance("foo");
+    printType(c);
     for(method in c.methods.values.sorted((Method<TestType,Void> x , Method<TestType,Void> y) x.name <=> y.name)){
         printMethod(method);
     }
