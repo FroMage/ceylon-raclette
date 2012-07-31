@@ -58,6 +58,8 @@ public class Class<T> {
 				mainConstructor = (Constructor<T>) c;
 				break;
 			}
+			if(mainConstructor == null)
+				throw new RuntimeException("No constructor?");
 		}
 		return mainConstructor;
 	}
