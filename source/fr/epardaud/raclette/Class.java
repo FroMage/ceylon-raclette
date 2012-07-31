@@ -2,6 +2,7 @@ package fr.epardaud.raclette;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 
 import ceylon.collection.MutableMap;
 import ceylon.language.Map;
@@ -42,6 +43,11 @@ public class Class<T> {
 		this.javaClass = javaClass;
 	}
 	
+	public boolean isShared(){
+		// FIXME: Ceylon interfaces and member classes have different rules
+		return Modifier.isPublic(javaClass.getModifiers());
+	}
+
 	public Set<Annotation> getAnnotations(){
 		if(annotations == null)
 			annotations = Util.initAnnotations(javaClass);
